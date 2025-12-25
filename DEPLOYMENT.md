@@ -54,10 +54,10 @@ wrangler login
 
 ### 步骤 3：配置 wrangler.toml
 
-编辑 `wrangler.toml` 文件，替换以下内容：
+编辑 `wrangler.toml` 文件，配置如下：
 
 ```toml
-name = "ip-geo-intelligence-api"
+name = "ipgeek"
 main = "workers/api.js"
 compatibility_date = "2024-01-01"
 
@@ -65,11 +65,11 @@ compatibility_date = "2024-01-01"
 CACHE_TTL = "3600"
 
 [[routes]]
-pattern = "https://your-domain.com/api/*"
-zone_name = "your-domain.com"
+pattern = "https://ipgeek.top/api/*"
+zone_name = "ipgeek.top"
 ```
 
-将 `your-domain.com` 替换为你的实际域名。
+项目已配置为使用 `ipgeek.top` 域名。
 
 ### 步骤 4：部署 Worker
 
@@ -124,8 +124,8 @@ https://your-project.pages.dev
 ### 测试 API
 
 ```bash
-curl https://your-domain.com/api/ip/8.8.8.8
-curl "https://your-domain.com/api/poi?lat=37.38605&lng=-122.08385"
+curl https://ipgeek.top/api/ip/8.8.8.8
+curl "https://ipgeek.top/api/poi?lat=37.38605&lng=-122.08385"
 ```
 
 ---

@@ -68,7 +68,7 @@ async function lookupIP(ip) {
 }
 
 async function fetchIPData(ip) {
-  const response = await fetch(`/api/ip/${ip}`);
+  const response = await fetch(`https://ipgeek.top/api/ip/${ip}`);
   if (!response.ok) throw new Error('Failed to fetch IP data');
   return await response.json();
 }
@@ -113,7 +113,7 @@ function updateMap(lat, lng, ip) {
 
 async function fetchAndDisplayPOI(lat, lng) {
   try {
-    const response = await fetch(`/api/poi?lat=${lat}&lng=${lng}`);
+    const response = await fetch(`https://ipgeek.top/api/poi?lat=${lat}&lng=${lng}`);
     if (!response.ok) throw new Error('Failed to fetch POI data');
     const pois = await response.json();
     

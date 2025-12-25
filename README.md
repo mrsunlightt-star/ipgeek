@@ -82,7 +82,7 @@ npm install -g wrangler
 wrangler login
 ```
 
-3. Update `wrangler.toml` with your domain
+3. The `wrangler.toml` is configured for `ipgeek.top`
 4. Deploy:
 ```bash
 wrangler publish
@@ -90,8 +90,8 @@ wrangler publish
 
 ## API Endpoints
 
-- `GET /api/ip/:ip` - Get IP geolocation data
-- `GET /api/poi?lat=...&lng=...&radius=...` - Get nearby POIs
+- `GET https://ipgeek.top/api/ip/:ip` - Get IP geolocation data
+- `GET https://ipgeek.top/api/poi?lat=...&lng=...&radius=...` - Get nearby POIs
 
 ## Data Sources
 
