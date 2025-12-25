@@ -65,10 +65,28 @@ http://localhost:8080
 
 ### Cloudflare Pages (Frontend)
 
-1. Push your code to GitHub
-2. Connect your repository to Cloudflare Pages
-3. Set build command to empty (static site)
-4. Set output directory to `/`
+1. Create Pages project:
+```bash
+wrangler pages project create ipgeek --production-branch main
+```
+
+2. Prepare deployment files:
+```bash
+mkdir -p dist
+cp index.html app.js i18n.js dist/
+cp -r locales dist/
+```
+
+3. Deploy to Cloudflare Pages:
+```bash
+wrangler pages deploy dist --project-name ipgeek
+```
+
+4. Configure custom domain:
+   - Go to Cloudflare Dashboard → Workers & Pages
+   - Select ipgeek project → Custom domains
+   - Add domain: `ipgeek.top`
+   - Wait for DNS propagation
 
 ### Cloudflare Workers (API)
 

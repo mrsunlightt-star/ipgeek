@@ -2,37 +2,63 @@
 
 ## 前端部署（Cloudflare Pages）
 
-### 步骤 1：准备代码仓库
+### 步骤 1：准备部署文件
 
-1. 将项目推送到 GitHub
-2. 确保仓库包含以下文件：
-   - `index.html`
-   - `i18n.js`
-   - `app.js`
-   - `locales/` 目录及其所有 JSON 文件
-   - `README.md`
+确保项目包含以下文件：
+- `index.html`
+- `i18n.js`
+- `app.js`
+- `locales/` 目录及其所有 JSON 文件
 
-### 步骤 2：创建 Cloudflare Pages 项目
+### 步骤 2：创建 Pages 项目
+
+使用 Wrangler CLI 创建 Pages 项目：
+
+```bash
+wrangler pages project create ipgeek --production-branch main
+```
+
+### 步骤 3：部署前端文件
+
+创建部署目录并复制文件：
+
+```bash
+mkdir -p dist
+cp index.html app.js i18n.js dist/
+cp -r locales dist/
+```
+
+部署到 Cloudflare Pages：
+
+```bash
+wrangler pages deploy dist --project-name ipgeek
+```
+
+部署成功后，你会看到类似以下的输出：
+
+```
+✨ Success! Uploaded 11 files (2.20 sec)
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://xxx.ipgeek.pages.dev
+```
+
+### 步骤 4：配置自定义域名 ipgeek.top
 
 1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
 2. 进入 **Workers & Pages**
-3. 点击 **Create application**
-4. 选择 **Pages** 标签
-5. 点击 **Connect to Git**
-6. 选择你的 GitHub 仓库
-7. 配构建设置：
-   - **Project name**: ip-geo-intelligence
-   - **Production branch**: main
-   - **Framework preset**: None
-   - **Build command**: (留空)
-   - **Build output directory**: `/`
-8. 点击 **Save and Deploy**
+3. 选择 **ipgeek** Pages 项目
+4. 点击 **Custom domains**
+5. 点击 **Set up a custom domain**
+6. 输入域名：`ipgeek.top`
+7. 点击 **Activate domain**
 
-### 步骤 3：配置自定义域名（可选）
+Cloudflare 会自动配置 DNS 记录：
+- CNAME 记录：`ipgeek.top` → `ipgeek.pages.dev`
 
-1. 在项目设置中，点击 **Custom domains**
-2. 添加你的域名
-3. 按照 Cloudflare 的指引配置 DNS
+等待 DNS 传播完成（通常几分钟到几小时），然后访问：
+```
+https://ipgeek.top
+```
 
 ---
 
