@@ -8,6 +8,17 @@ async function handleRequest(request) {
   const url = new URL(request.url);
   const path = url.pathname;
 
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
+    });
+  }
+
   if (path.startsWith('/ip/')) {
     return handleIPRequest(request);
   } else if (path.startsWith('/poi')) {
@@ -51,7 +62,8 @@ async function handleIPRequest(request) {
         const cacheResponse = new Response(responseData, {
           headers: { 
             'Content-Type': 'application/json',
-            'Cache-Control': `public, max-age=${CACHE_TTL}`
+            'Cache-Control': `public, max-age=${CACHE_TTL}`,
+            'Access-Control-Allow-Origin': '*'
           }
         });
         
@@ -73,28 +85,11 @@ async function handleIPRequest(request) {
     error: 'All IP services failed. Please try again later.' 
   }), {
     status: 503,
-    headers: { 'Content-Type': 'application/json' }
-  });
-}
-
-async function fetchFromIPRegistry(ip) {
-  const response = await fetch(`https://api.ipregistry.co/${ip}?key=tryout`, {
-    headers: {
-      'User-Agent': 'IP-Geo-Intelligence/1.0'
+    headers: { 
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     }
   });
-
-  if (!response.ok) {
-    throw new Error(`IPRegistry failed with status ${response.status}`);
-  }
-
-  const data = await response.json();
-  
-  if (data.error) {
-    throw new Error(data.error.message || 'IPRegistry error');
-  }
-
-  return normalizeIPData(data, 'ipregistry');
 }
 
 async function fetchFromIPRegistry(ip) {
@@ -295,7 +290,10 @@ async function handlePOIRequest(request) {
   if (!lat || !lng) {
     return new Response(JSON.stringify({ error: 'Missing lat or lng parameter' }), {
       status: 400,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     });
   }
 
@@ -333,7 +331,10 @@ async function handlePOIRequest(request) {
     if (!response.ok) {
       return new Response(JSON.stringify({ error: 'Failed to fetch POI data' }), {
         status: response.status,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
     }
 
@@ -345,7 +346,8 @@ async function handlePOIRequest(request) {
     const cacheResponse = new Response(responseData, {
       headers: { 
         'Content-Type': 'application/json',
-        'Cache-Control': `public, max-age=${CACHE_TTL}`
+        'Cache-Control': `public, max-age=${CACHE_TTL}`,
+        'Access-Control-Allow-Origin': '*'
       }
     });
     
