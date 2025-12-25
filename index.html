@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Geo Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    #map { height: 400px; width: 100%; }
+    .leaflet-popup-content { margin: 8px 12px; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="flex flex-col md:flex-row min-h-screen">
+    <div class="w-full md:w-2/3 p-4 md:p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800" data-i18n="title">IP Geo Intelligence</h1>
+        <select id="languageSelector" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </select>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-4 md:p-6 mb-6">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input 
+            type="text" 
+            id="ipInput" 
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            data-i18n-placeholder="enter_ip"
+            placeholder="Enter IP address"
+          />
+          <button 
+            id="lookupBtn"
+            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            data-i18n="lookup"
+          >
+            Lookup
+          </button>
+          <button 
+            id="useMyIpBtn"
+            class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            data-i18n="use_my_ip"
+          >
+            Use My IP
+          </button>
+        </div>
+      </div>
+
+      <div id="ipInfo" class="hidden bg-white rounded-lg shadow-md p-4 md:p-6 mb-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-800" data-i18n="ip_address">IP Address</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <span class="text-gray-600" data-i18n="ip_address">IP Address:</span>
+            <span id="ipValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="country">Country:</span>
+            <span id="countryValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="region">Region:</span>
+            <span id="regionValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="city">City:</span>
+            <span id="cityValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="isp">ISP:</span>
+            <span id="ispValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="org">Organization:</span>
+            <span id="orgValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="asn">ASN:</span>
+            <span id="asnValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="ip_type">IP Type:</span>
+            <span id="ipTypeValue" class="font-medium ml-2">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="map" class="rounded-lg shadow-md mb-6"></div>
+
+      <div id="poiSection" class="hidden bg-white rounded-lg shadow-md p-4 md:p-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-800" data-i18n="poi_title">Nearby Points of Interest</h2>
+        <div id="poiList" class="space-y-2"></div>
+      </div>
+    </div>
+
+    <div class="w-full md:w-1/3 p-4 md:p-6 bg-gray-100 border-l border-gray-200">
+      <div 
+        id="ad-slot" 
+        class="h-64 bg-yellow-100 flex items-center justify-center rounded-lg border-2 border-dashed border-yellow-300"
+        data-i18n="ad_space"
+      >
+        Ad Space
+      </div>
+      <p class="mt-6 text-sm text-gray-600 leading-relaxed" data-i18n="disclaimer">
+        This tool uses public data sources. Location accuracy is approximate (city-level). Do not use for emergency or legal purposes.
+      </p>
+      <p class="mt-4 text-xs text-gray-500" data-i18n="attribution">
+        IP data by ipapi.co | Map data © OpenStreetMap contributors
+      </p>
+    </div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
