@@ -65,11 +65,11 @@ compatibility_date = "2024-01-01"
 CACHE_TTL = "3600"
 
 [[routes]]
-pattern = "https://ipgeek.top/api/*"
+pattern = "https://api.ipgeek.top/*"
 zone_name = "ipgeek.top"
 ```
 
-项目已配置为使用 `ipgeek.top` 域名。
+项目已配置为使用 `api.ipgeek.top` 作为 API 子域名。
 
 ### 步骤 4：部署 Worker
 
@@ -124,8 +124,8 @@ https://your-project.pages.dev
 ### 测试 API
 
 ```bash
-curl https://ipgeek.top/api/ip/8.8.8.8
-curl "https://ipgeek.top/api/poi?lat=37.38605&lng=-122.08385"
+curl https://api.ipgeek.top/ip/8.8.8.8
+curl "https://api.ipgeek.top/poi?lat=37.38605&lng=-122.08385"
 ```
 
 ---

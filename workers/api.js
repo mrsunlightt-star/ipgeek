@@ -8,9 +8,9 @@ async function handleRequest(request) {
   const url = new URL(request.url);
   const path = url.pathname;
 
-  if (path.startsWith('/api/ip/')) {
+  if (path.startsWith('/ip/')) {
     return handleIPRequest(request);
-  } else if (path.startsWith('/api/poi')) {
+  } else if (path.startsWith('/poi')) {
     return handlePOIRequest(request);
   }
 
@@ -19,7 +19,7 @@ async function handleRequest(request) {
 
 async function handleIPRequest(request) {
   const url = new URL(request.url);
-  const ip = url.pathname.replace('/api/ip/', '');
+  const ip = url.pathname.replace('/ip/', '');
   
   const cacheKey = `ip:${ip}`;
   const cached = await cache.get(cacheKey);

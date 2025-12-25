@@ -90,8 +90,8 @@ wrangler publish
 
 ## API Endpoints
 
-- `GET https://ipgeek.top/api/ip/:ip` - Get IP geolocation data
-- `GET https://ipgeek.top/api/poi?lat=...&lng=...&radius=...` - Get nearby POIs
+- `GET https://api.ipgeek.top/ip/:ip` - Get IP geolocation data
+- `GET https://api.ipgeek.top/poi?lat=...&lng=...&radius=...` - Get nearby POIs
 
 ## Data Sources
 

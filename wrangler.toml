@@ -6,5 +6,5 @@ compatibility_date = "2024-01-01"
 CACHE_TTL = "3600"
 
 [[routes]]
-pattern = "https://ipgeek.top/api/*"
+pattern = "https://api.ipgeek.top/*"
 zone_name = "ipgeek.top"
