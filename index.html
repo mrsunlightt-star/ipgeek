@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IP Geo Intelligence</title>
+  <title>IPGeek</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -13,10 +13,14 @@
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-  <div class="flex flex-col md:flex-row min-h-screen">
-    <div class="w-full md:w-2/3 p-4 md:p-6">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-800" data-i18n="title">IP Geo Intelligence</h1>
+  <div class="flex min-h-screen">
+    <div class="hidden md:block w-1/5"></div>
+    <div class="w-full md:w-3/5 p-4 md:p-6">
+      <div class="mb-6">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800" data-i18n="title">IPGeek</h1>
+        <p class="text-sm text-gray-600 mt-2" data-i18n="description">快速查询任意 IP 的地理位置、运营商与网络信息，精准、免费</p>
+      </div>
+      <div class="mb-6">
         <select id="languageSelector" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         </select>
       </div>
@@ -40,9 +44,9 @@
           <button 
             id="useMyIpBtn"
             class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
-            data-i18n="use_my_ip"
+            data-i18n="check_my_ip"
           >
-            Use My IP
+            Check My IP
           </button>
         </div>
       </div>
@@ -55,8 +59,16 @@
             <span id="ipValue" class="font-medium ml-2">-</span>
           </div>
           <div>
+            <span class="text-gray-600" data-i18n="ip_version">IP Version:</span>
+            <span id="ipVersionValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
             <span class="text-gray-600" data-i18n="country">Country:</span>
             <span id="countryValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="country_code">Country Code:</span>
+            <span id="countryCodeValue" class="font-medium ml-2">-</span>
           </div>
           <div>
             <span class="text-gray-600" data-i18n="region">Region:</span>
@@ -65,6 +77,10 @@
           <div>
             <span class="text-gray-600" data-i18n="city">City:</span>
             <span id="cityValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="postal">Postal:</span>
+            <span id="postalValue" class="font-medium ml-2">-</span>
           </div>
           <div>
             <span class="text-gray-600" data-i18n="isp">ISP:</span>
@@ -79,35 +95,139 @@
             <span id="asnValue" class="font-medium ml-2">-</span>
           </div>
           <div>
+            <span class="text-gray-600" data-i18n="asn_name">ASN Name:</span>
+            <span id="asnNameValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="asn_country">ASN Country:</span>
+            <span id="asnCountryValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
             <span class="text-gray-600" data-i18n="ip_type">IP Type:</span>
             <span id="ipTypeValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="connection_type">Connection Type:</span>
+            <span id="connectionTypeValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="network_egress">Network Egress:</span>
+            <span id="networkEgressValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="network_ingress">Network Ingress:</span>
+            <span id="networkIngressValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="timezone">Timezone:</span>
+            <span id="timezoneValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="timezone_offset">UTC Offset:</span>
+            <span id="timezoneOffsetValue" class="font-medium ml-2">-</span>
+          </div>
+          <div>
+            <span class="text-gray-600" data-i18n="currency">Currency:</span>
+            <span id="currencyValue" class="font-medium ml-2">-</span>
+          </div>
+        </div>
+        
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <h3 class="text-lg font-semibold mb-4 text-gray-800" data-i18n="ip_purity">IP Purity</h3>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm text-gray-600" data-i18n="purity_score">Purity Score:</span>
+                <span id="purityScore" class="text-sm font-medium text-gray-800">-</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="purityBar" class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-600" data-i18n="users_count">Users Count:</span>
+              <span id="usersCount" class="text-sm font-medium text-gray-800">-</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-600" data-i18n="risk_level">Risk Level:</span>
+              <span id="riskLevel" class="text-sm font-medium">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="leakSection" class="hidden mt-6 pt-6 border-t border-gray-200">
+          <h3 class="text-lg font-semibold mb-4 text-gray-800" data-i18n="ip_leak_detection">IP Leak Detection</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600" data-i18n="vpn_status">VPN Status:</span>
+              <span id="vpnStatus" class="text-sm font-medium">-</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600" data-i18n="leak_status">Leak Status:</span>
+              <span id="leakStatus" class="text-sm font-medium">-</span>
+            </div>
+            <div id="leakDetails" class="mt-4"></div>
           </div>
         </div>
       </div>
 
-      <div id="map" class="rounded-lg shadow-md mb-6"></div>
+      <div id="map" class="rounded-lg shadow-md mb-6 relative">
+        <div class="absolute top-4 right-4 z-[1000]">
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="mapSearchInput"
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 bg-white shadow-lg"
+              placeholder="Search location..."
+            />
+            <button 
+              id="mapSearchBtn"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+            >
+              🔍
+            </button>
+          </div>
+        </div>
+      </div>
 
-      <div id="poiSection" class="hidden bg-white rounded-lg shadow-md p-4 md:p-6">
-        <h2 class="text-xl font-semibold mb-4 text-gray-800" data-i18n="poi_title">Nearby Points of Interest</h2>
-        <div id="poiList" class="space-y-2"></div>
+      <div id="searchResultsSection" class="hidden bg-white rounded-lg shadow-md p-4 md:p-6 mb-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-800" data-i18n="search_results">Search Results</h2>
+        <div id="searchResultsList" class="space-y-2"></div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <div class="space-y-4">
+          <div class="bg-blue-50 rounded-lg p-4">
+            <h3 class="text-sm font-semibold text-blue-900 mb-2" data-i18n="privacy_title">隐私说明</h3>
+            <p class="text-xs text-blue-800 leading-relaxed" data-i18n="privacy_policy">
+              我们严格遵守隐私保护政策（GDPR、CCPA）。本服务不存储任何用户数据，不追踪用户行为，不使用 Cookie。所有查询均为实时处理，查询后立即清除。
+            </p>
+          </div>
+          
+          <div class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-sm font-semibold text-gray-900 mb-2" data-i18n="contact_title">联系方式</h3>
+            <div class="space-y-2 text-xs text-gray-700">
+              <div class="flex items-center gap-2">
+                <span class="text-blue-600">📧</span>
+                <a href="mailto:mr.sunlightt@gmail.com" class="text-blue-600 hover:underline">mr.sunlightt@gmail.com</a>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-blue-600">✈️</span>
+                <a href="https://t.me/more_support" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">@more_support</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-sm font-semibold text-gray-900 mb-2" data-i18n="api_sources_title">API 数据来源</h3>
+            <p class="text-xs text-gray-700 leading-relaxed" data-i18n="api_sources">
+              本服务使用多个 IP 地理位置查询 API 提供商的数据，包括：ipregistry.io、ipinfo.io、ipapi.co、ip-api.com、db-ip.com、geojs.io。数据来源的优先级和可用性会根据实际情况动态调整。
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="w-full md:w-1/3 p-4 md:p-6 bg-gray-100 border-l border-gray-200">
-      <div 
-        id="ad-slot" 
-        class="h-64 bg-yellow-100 flex items-center justify-center rounded-lg border-2 border-dashed border-yellow-300"
-        data-i18n="ad_space"
-      >
-        Ad Space
-      </div>
-      <p class="mt-6 text-sm text-gray-600 leading-relaxed" data-i18n="disclaimer">
-        This tool uses public data sources. Location accuracy is approximate (city-level). Do not use for emergency or legal purposes.
-      </p>
-      <p class="mt-4 text-xs text-gray-500" data-i18n="attribution">
-        IP data by ipapi.co | Map data © OpenStreetMap contributors
-      </p>
-    </div>
+    <div class="hidden md:block w-1/5"></div>
   </div>
 
   <script src="i18n.js"></script>

@@ -16,11 +16,6 @@ const i18n = {
     const savedLang = localStorage.getItem('preferredLanguage');
     if (savedLang && this.supportedLanguages.some(lang => lang.code === savedLang)) {
       this.currentLang = savedLang;
-    } else {
-      const browserLang = navigator.language.split('-')[0];
-      if (this.supportedLanguages.some(lang => lang.code === browserLang)) {
-        this.currentLang = browserLang;
-      }
     }
     await this.loadTranslations(this.currentLang);
     this.updateDOM();
@@ -68,6 +63,10 @@ const i18n = {
       const key = el.getAttribute('data-i18n-placeholder');
       el.placeholder = this.t(key);
     });
+    
+    if (typeof updateRiskLevelDisplay === 'function' && typeof currentPurityScore === 'number') {
+      updateRiskLevelDisplay(currentPurityScore);
+    }
   },
 
   setupLanguageSelector() {
